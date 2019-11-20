@@ -1,0 +1,11 @@
+.hoverable{
+    -fx-background-color:  #636e72;
+}
+
+.hoverable:hover{
+    -fx-background-color:  #b2bec3;
+}
+
+.active{
+    -fx-background-color:  red;
+}

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="555.0" prefWidth="503.0" stylesheets="@../css/Board.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.BoardController">
+   <children>
+      <VBox>
+         <children>
+            <HBox prefHeight="62.0" prefWidth="506.0" spacing="1.0">
+               <children>
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos1" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos2" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos3" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos4" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+               </children>
+            </HBox>
+            <HBox prefHeight="62.0" prefWidth="506.0" spacing="1.0">
+               <children>
+                  <BorderPane fx:id="pos5" prefHeight="62.0" prefWidth="62.0" style="-: #636e72;" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos6" prefHeight="62.0" prefWidth="62.0" style="-: #636e72;" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos7" prefHeight="62.0" prefWidth="62.0" style="-: #636e72;" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos8" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+               </children>
+            </HBox>
+            <HBox prefHeight="62.0" prefWidth="506.0" spacing="1.0">
+               <children>
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos9" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos10" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos11" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos12" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+               </children>
+            </HBox>
+            <HBox prefHeight="62.0" prefWidth="506.0" spacing="1.0">
+               <children>
+                  <BorderPane fx:id="pos13" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos14" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos15" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos16" prefHeight="62.0" prefWidth="62.0" style="-: #636e72;" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+               </children>
+            </HBox>
+            <HBox prefHeight="62.0" prefWidth="506.0" spacing="1.0">
+               <children>
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos17" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos18" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos19" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos20" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+               </children>
+            </HBox>
+            <HBox prefHeight="62.0" prefWidth="506.0" spacing="1.0">
+               <children>
+                  <BorderPane fx:id="pos21" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos22" prefHeight="62.0" prefWidth="62.0" style="-: #636e72;" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos23" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos24" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+               </children>
+            </HBox>
+            <HBox prefHeight="62.0" prefWidth="506.0" spacing="1.0">
+               <children>
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos25" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos26" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos27" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos28" prefHeight="62.0" prefWidth="62.0" style="-: #636e72;" styleClass="hoverable" />
+               </children>
+            </HBox>
+            <HBox prefHeight="62.0" prefWidth="506.0" spacing="1.0">
+               <children>
+                  <BorderPane fx:id="pos29" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos30" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos31" prefHeight="62.0" prefWidth="62.0" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+                  <BorderPane fx:id="pos32" prefHeight="62.0" prefWidth="62.0" style="-: #636e72;" styleClass="hoverable" />
+                  <BorderPane prefHeight="62.0" prefWidth="62.0" style="-fx-background-color: #ffeaa7;" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <HBox prefHeight="58.0" prefWidth="503.0">
+         <children>
+            <Label fx:id="message" prefHeight="56.0" prefWidth="445.0" style="-fx-padding: 0 0 0 20;" />
+            <Button mnemonicParsing="false" prefHeight="64.0" prefWidth="59.0" text="HINT" />
+         </children>
+      </HBox>
+   </children>
+</VBox>
