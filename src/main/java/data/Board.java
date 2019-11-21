@@ -23,7 +23,8 @@ public class Board {
         FAILED_MOVING_INVALID_PIECE,
         FAILED_INVALID_DESTINATION,
         ADDITIONAL_MOVE,
-        GAME_ENDED
+        GAME_ENDED,
+        JUMP_AVAILABLE
     }
 
     public Board() {
@@ -156,14 +157,34 @@ public class Board {
         List<Move> possibleMoves = getValidMoves(startRow, startCol, side);
         //System.out.println(possibleMoves);
 
+        List<Move> allValidMoves = getAllValidMoves(side);
+
+        //Check if jump move is available
+        boolean jumpMoveAvailable = false;
+        for(Move m: allValidMoves){
+            if(m.getStart().x+1 != m.getEnd().x && m.getStart().x-1 != m.getEnd().x){
+                jumpMoveAvailable = true;
+                break;
+            }
+        }
+
         Type currType = getPiece(startRow, startCol);
 
         if (possibleMoves.contains(move)) {
             boolean jumpMove = false;
             //if it contains move then it is either 1 move or 1 jump
             if (startRow + 1 == endRow || startRow - 1 == endRow) {
+
+                //If the choosed move is not a jump when jump move is available
+                if(jumpMoveAvailable){
+                    return Decision.JUMP_AVAILABLE;
+                }
+
+
                 board[startRow][startCol] = Type.EMPTY;
                 board[endRow][endCol] = currType;
+
+
             } else {
                 jumpMove = true;
                 board[startRow][startCol] = Type.EMPTY;

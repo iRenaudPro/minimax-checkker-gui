@@ -328,7 +328,9 @@ public class BoardController implements Initializable {
 
 
         board = new Board();
+
         game_started = true;
+        game_ended = false;
 
         current = one;
         if(!turn)
@@ -349,7 +351,7 @@ public class BoardController implements Initializable {
                         Platform.runLater(new Runnable() {
                             @Override public void run() {
                                 if(finalJ ==1000){
-                                    AIMove();
+                                    AIMove(null);
                                 }
                             }
                         });
@@ -395,6 +397,13 @@ public class BoardController implements Initializable {
             alert.setTitle("Incorrect");
             alert.setHeaderText(null);
             alert.setContentText("YOU CAN NOT MOVE THAT PIECE");
+            alert.showAndWait();
+        } else if(decision == Board.Decision.JUMP_AVAILABLE){
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Incorrect");
+            alert.setHeaderText(null);
+            alert.setContentText("CAPTURE MOVE AVAILABLE, YOU MUST CAPTURE!");
             alert.showAndWait();
         }
         else if(decision == Board.Decision.COMPLETED)
@@ -451,7 +460,7 @@ public class BoardController implements Initializable {
                         Platform.runLater(new Runnable() {
                             @Override public void run() {
                                 if(finalJ ==1000){
-                                    AIMove();
+                                    AIMove(null);
                                 }
                             }
                         });
@@ -505,12 +514,33 @@ public class BoardController implements Initializable {
 
     }
 
-    private void AIMove(){
+    private void AIMove(Move move){
         if(current instanceof AI) {
             Board.Decision decision = null;
-            decision = ((AI) current).makeMove(board);
 
-            if(decision == Board.Decision.COMPLETED){
+            List<Move> jumpMoves = new ArrayList<>();
+
+            //if capture move available force AI to perform it
+            for(Move m: board.getAllValidMoves(current.getSide())){
+                if(m.getStart().x+1 != m.getEnd().x && m.getStart().x-1 != m.getEnd().x){
+                    jumpMoves.add(m);
+                }
+            }
+
+            if(move==null){
+                decision = ((AI) current).makeMove(board);
+            }else{
+                //decision = ((AI) current).makeMove(move, board);
+                decision = board.makeMove(move, current.getSide());
+            }
+
+
+            if(decision == Board.Decision.JUMP_AVAILABLE){
+                Move randomJumpMove = jumpMoves.get(new Random().nextInt(jumpMoves.size()));
+
+                AIMove(randomJumpMove);
+            }
+            else if(decision == Board.Decision.COMPLETED){
 
                 loadBoard(board);
 
@@ -571,7 +601,7 @@ public class BoardController implements Initializable {
                             Platform.runLater(new Runnable() {
                                 @Override public void run() {
                                     if(finalJ ==1000){
-                                        AIMove();
+                                        AIMove(null);
                                     }
                                 }
                             });
