@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
 import java.awt.*;
@@ -86,6 +87,9 @@ public class BoardController implements Initializable {
     @FXML
     private javafx.scene.control.Label message;
 
+    @FXML
+    private VBox thisVBOX;
+
     private Boolean engagedMove = false;
     private Pair<Integer, Integer> engagedCase = new Pair<>(-1, -1);
 
@@ -99,6 +103,7 @@ public class BoardController implements Initializable {
     Board board;
     private int c = 0;
     boolean turn = true;
+    boolean additional_move = false;
     boolean game_ended = false;
 
     Task<Void> task;
@@ -120,21 +125,41 @@ public class BoardController implements Initializable {
                     ImageView temp = new ImageView(new Image("images/black.png"));
                     temp.setFitWidth(45);
                     temp.setPreserveRatio(true);
+
+                    if(one.getSide()== Player.Side.WHITE){
+                        temp.setRotate(180);
+                    }
+
                     getCase(j, i).setCenter(temp);
                 }else if(b.getBoard()[i][j] == Board.Type.WHITE){
                     ImageView temp = new ImageView(new Image("images/white.png"));
                     temp.setFitWidth(45);
                     temp.setPreserveRatio(true);
+
+                    if(one.getSide()== Player.Side.WHITE){
+                        temp.setRotate(180);
+                    }
+
                     getCase(j, i).setCenter(temp);
                 }else if(b.getBoard()[i][j] == Board.Type.BLACK_KING){
                     ImageView temp = new ImageView(new Image("images/black_king.png"));
                     temp.setFitWidth(45);
                     temp.setPreserveRatio(true);
+
+                    if(one.getSide()== Player.Side.WHITE){
+                        temp.setRotate(180);
+                    }
+
                     getCase(j, i).setCenter(temp);
                 }else if(b.getBoard()[i][j] == Board.Type.WHITE_KING){
                     ImageView temp = new ImageView(new Image("images/white_king.png"));
                     temp.setFitWidth(45);
                     temp.setPreserveRatio(true);
+
+                    if(one.getSide()== Player.Side.WHITE){
+                        temp.setRotate(180);
+                    }
+                    
                     getCase(j, i).setCenter(temp);
                 }
             }
@@ -205,11 +230,20 @@ public class BoardController implements Initializable {
                         return;
                     }
 
-                    if(board.getBoard()[entry.getValue().getValue()][ entry.getValue().getKey()] != Board.Type.BLACK){
-                        if(board.getBoard()[entry.getValue().getValue()][ entry.getValue().getKey()] != Board.Type.BLACK_KING){
-                            return;
+                    if(one.getSide()== Player.Side.BLACK){
+                        if(board.getBoard()[entry.getValue().getValue()][ entry.getValue().getKey()] != Board.Type.BLACK){
+                            if(board.getBoard()[entry.getValue().getValue()][ entry.getValue().getKey()] != Board.Type.BLACK_KING){
+                                return;
+                            }
+                        }
+                    }else{
+                        if(board.getBoard()[entry.getValue().getValue()][ entry.getValue().getKey()] != Board.Type.WHITE){
+                            if(board.getBoard()[entry.getValue().getValue()][ entry.getValue().getKey()] != Board.Type.WHITE_KING){
+                                return;
+                            }
                         }
                     }
+
 
                     entry.getKey().getStyleClass().add("active");
                     engagedCase = new Pair<>(entry.getValue().getKey(), entry.getValue().getValue());
@@ -224,6 +258,12 @@ public class BoardController implements Initializable {
                     }
 
                     gameServe( engagedCase.getValue(),engagedCase.getKey(),  entry.getValue().getValue(), entry.getValue().getKey());
+
+                    if(additional_move){
+                        entry.getKey().getStyleClass().add("active");
+                        engagedCase = new Pair<>(entry.getValue().getKey(), entry.getValue().getValue());
+                        engagedMove=true;
+                    }
 
 
                 }
@@ -242,12 +282,20 @@ public class BoardController implements Initializable {
         return new BorderPane();
     }
 
-    public void startGame(){
+    public void startGame(int depth, Boolean black){
 
-        one = new Player("HUMAN", Player.Side.BLACK);
-        two = new MinimaxAI(Player.Side.WHITE, 6);
+        if(black){
+            one = new Player("HUMAN", Player.Side.BLACK);
+            two = new MinimaxAI(Player.Side.WHITE, depth);
+            turn = true;
+            thisVBOX.setRotate(0);
+        }else{
+            one = new Player("HUMAN", Player.Side.WHITE);
+            two = new MinimaxAI(Player.Side.BLACK, depth);
+            turn = false;
+            thisVBOX.setRotate(180);
+        }
 
-        boolean turn = true;
 
         board = new Board();
 
@@ -256,6 +304,30 @@ public class BoardController implements Initializable {
             current = two;
 
         loadBoard(board);
+
+        if(current==two){
+            Task<Void> task = new Task<Void>() {
+
+                @Override protected Void call() throws Exception {
+
+                    int j=0;
+                    for (int i=0; i<=1000; i++) {
+                        j++;
+                        int finalJ = j;
+                        Platform.runLater(new Runnable() {
+                            @Override public void run() {
+                                if(finalJ ==1000){
+                                    AIMove();
+                                }
+                            }
+                        });
+                    }
+                    return null;
+                }
+            };
+
+            new Thread(task).start();
+        }
     }
 
     private void gameServe(int x1, int y1, int x2, int y2){
@@ -267,6 +339,9 @@ public class BoardController implements Initializable {
         Move m;
         m = new Move(x1, y1, x2, y2);
         decision = current.makeMove(m, board);
+
+        additional_move = decision==Board.Decision.ADDITIONAL_MOVE;
+
 
         if(decision == Board.Decision.FAILED_INVALID_DESTINATION)
         {
@@ -297,7 +372,7 @@ public class BoardController implements Initializable {
             if(board.getNumBlackPieces() == 0)
             {
 
-                //message.setText("White wins with " + board.getNumWhitePieces() + " pieces left");
+                message.setText("GAME ENDED: White wins");
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Information");
@@ -310,7 +385,7 @@ public class BoardController implements Initializable {
             }
             if(board.getNumWhitePieces() == 0)
             {
-                //message.setText("Black wins with " + board.getNumBlackPieces() + " pieces left");
+                message.setText("GAME ENDED: Black wins");
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Information");
@@ -369,7 +444,8 @@ public class BoardController implements Initializable {
             //current player cannot move
             if(current.getSide() == Player.Side.BLACK)
             {
-                //message.setText("White wins");
+                message.setText("GAME ENDED: White wins");
+
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Information");
                 alert.setHeaderText(null);
@@ -380,7 +456,8 @@ public class BoardController implements Initializable {
                 return;
             }
             else {
-                //message.setText("Black wins");
+                message.setText("GAME ENDED: Black wins");
+
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Information");
                 alert.setHeaderText(null);
@@ -406,7 +483,7 @@ public class BoardController implements Initializable {
                 if(board.getNumBlackPieces() == 0)
                 {
 
-                    //message.setText("White wins with " + board.getNumWhitePieces() + " pieces left");
+                    message.setText("GAME ENDED: White Wins");
 
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Information");
@@ -419,7 +496,7 @@ public class BoardController implements Initializable {
                 }
                 if(board.getNumWhitePieces() == 0)
                 {
-                    //message.setText("Black wins with " + board.getNumBlackPieces() + " pieces left");
+                    message.setText("GAME ENDED: Black Wins");
 
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Information");
@@ -478,7 +555,7 @@ public class BoardController implements Initializable {
                 //current player cannot move
                 if(current.getSide() == Player.Side.BLACK)
                 {
-                    //message.setText("White wins");
+                    message.setText("GAME ENDED: White wins");
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Information");
                     alert.setHeaderText(null);
@@ -489,7 +566,8 @@ public class BoardController implements Initializable {
                     return;
                 }
                 else {
-                    //message.setText("Black wins");
+                    message.setText("GAME ENDED: Black wins");
+
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Information");
                     alert.setHeaderText(null);

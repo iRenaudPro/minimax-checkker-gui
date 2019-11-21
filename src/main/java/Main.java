@@ -11,6 +11,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("fxml/main.fxml"));
         primaryStage.setTitle("Checkers");
         primaryStage.setScene(new Scene(root));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 

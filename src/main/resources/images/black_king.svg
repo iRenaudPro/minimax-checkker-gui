@@ -7,6 +7,7 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="210mm"
@@ -17,7 +18,29 @@
    inkscape:version="0.92.3 (2405546, 2018-03-11)"
    sodipodi:docname="black_king.svg">
   <defs
-     id="defs2" />
+     id="defs2">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient824">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop820" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="1"
+         id="stop822" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient824"
+       id="linearGradient826"
+       x1="33.345832"
+       y1="114.36191"
+       x2="119.35655"
+       y2="114.36191"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -25,9 +48,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.35"
-     inkscape:cx="-124.28571"
-     inkscape:cy="560"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="-34.546184"
+     inkscape:cy="628.6207"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -44,7 +67,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -58,20 +81,37 @@
        cy="106.12202"
        rx="41.955357"
        ry="25.324406"
-       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:2.0999999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="fill:none;fill-opacity:1;stroke:#323232;stroke-width:2.0999999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <ellipse
        id="path10-3"
        cx="76.729164"
        cy="100.14999"
        rx="41.955357"
        ry="25.324406"
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:2.0999999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="fill:#323232;fill-opacity:1;stroke:#323232;stroke-width:2.0999999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <ellipse
        id="path10-36"
        cx="76.351189"
        cy="114.36191"
        rx="41.955357"
        ry="25.324406"
-       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:2.0999999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="fill:url(#linearGradient826);fill-opacity:1;stroke:#323232;stroke-width:2.0999999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       sodipodi:type="star"
+       style="fill:#323232;fill-opacity:1;stroke-width:0.26458332"
+       id="path823"
+       sodipodi:sides="5"
+       sodipodi:cx="75.445244"
+       sodipodi:cy="72.320206"
+       sodipodi:r1="24.366276"
+       sodipodi:r2="12.183138"
+       sodipodi:arg1="2.1807208"
+       sodipodi:arg2="2.8090394"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 61.488106,92.29303 2.441491,-15.995548 -11.79263,-11.079361 15.967132,-2.6209 6.892975,-14.639169 7.42674,14.375742 16.052723,2.031858 -11.377155,11.505597 3.028153,15.894926 -14.458207,-7.264892 z"
+       inkscape:transform-center-x="0.13849037"
+       inkscape:transform-center-y="-2.1946661" />
   </g>
 </svg>
