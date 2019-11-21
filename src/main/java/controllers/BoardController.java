@@ -16,6 +16,7 @@ import javafx.util.Pair;
 import java.awt.*;
 import java.net.URL;
 import java.util.*;
+import java.util.List;
 
 public class BoardController implements Initializable {
 
@@ -90,6 +91,9 @@ public class BoardController implements Initializable {
     @FXML
     private VBox thisVBOX;
 
+    @FXML
+    private Button hintBtn;
+
     private Boolean engagedMove = false;
     private Pair<Integer, Integer> engagedCase = new Pair<>(-1, -1);
 
@@ -105,12 +109,14 @@ public class BoardController implements Initializable {
     boolean turn = true;
     boolean additional_move = false;
     boolean game_ended = false;
+    boolean game_started = false;
 
     Task<Void> task;
 
     public void initialize(URL location, ResourceBundle resources) {
         initializeBoardCases();
         setBoardCasesListeners();
+        hintBtn.setOnAction(e->showMovablePieces(board));
     }
 
     private void loadBoard(Board b){
@@ -119,9 +125,18 @@ public class BoardController implements Initializable {
                 if(b.getBoard()[i][j] == Board.Type.EMPTY){
                     if(getCase(j, i)!= null){
                         getCase(j, i).setCenter(null);
+                        if(getCase(j, i).getStyleClass().contains("movable")){
+                            getCase(j, i).getStyleClass().remove("movable");
+                        }
                     }
                     continue;
                 }else if(b.getBoard()[i][j] == Board.Type.BLACK){
+
+                    if(getCase(j, i).getStyleClass().contains("movable")){
+                        getCase(j, i).getStyleClass().remove("movable");
+                    }
+
+
                     ImageView temp = new ImageView(new Image("images/black.png"));
                     temp.setFitWidth(45);
                     temp.setPreserveRatio(true);
@@ -132,6 +147,11 @@ public class BoardController implements Initializable {
 
                     getCase(j, i).setCenter(temp);
                 }else if(b.getBoard()[i][j] == Board.Type.WHITE){
+
+                    if(getCase(j, i).getStyleClass().contains("movable")){
+                        getCase(j, i).getStyleClass().remove("movable");
+                    }
+
                     ImageView temp = new ImageView(new Image("images/white.png"));
                     temp.setFitWidth(45);
                     temp.setPreserveRatio(true);
@@ -142,6 +162,11 @@ public class BoardController implements Initializable {
 
                     getCase(j, i).setCenter(temp);
                 }else if(b.getBoard()[i][j] == Board.Type.BLACK_KING){
+
+                    if(getCase(j, i).getStyleClass().contains("movable")){
+                        getCase(j, i).getStyleClass().remove("movable");
+                    }
+
                     ImageView temp = new ImageView(new Image("images/black_king.png"));
                     temp.setFitWidth(45);
                     temp.setPreserveRatio(true);
@@ -152,6 +177,11 @@ public class BoardController implements Initializable {
 
                     getCase(j, i).setCenter(temp);
                 }else if(b.getBoard()[i][j] == Board.Type.WHITE_KING){
+
+                    if(getCase(j, i).getStyleClass().contains("movable")){
+                        getCase(j, i).getStyleClass().remove("movable");
+                    }
+
                     ImageView temp = new ImageView(new Image("images/white_king.png"));
                     temp.setFitWidth(45);
                     temp.setPreserveRatio(true);
@@ -159,7 +189,7 @@ public class BoardController implements Initializable {
                     if(one.getSide()== Player.Side.WHITE){
                         temp.setRotate(180);
                     }
-                    
+
                     getCase(j, i).setCenter(temp);
                 }
             }
@@ -298,6 +328,7 @@ public class BoardController implements Initializable {
 
 
         board = new Board();
+        game_started = true;
 
         current = one;
         if(!turn)
@@ -306,6 +337,7 @@ public class BoardController implements Initializable {
         loadBoard(board);
 
         if(current==two){
+            message.setText("AI is playing...");
             Task<Void> task = new Task<Void>() {
 
                 @Override protected Void call() throws Exception {
@@ -327,6 +359,8 @@ public class BoardController implements Initializable {
             };
 
             new Thread(task).start();
+        }else{
+            message.setText("It's your turn...");
         }
     }
 
@@ -576,6 +610,85 @@ public class BoardController implements Initializable {
 
                     game_ended = true;
                     return;
+                }
+            }
+        }
+    }
+
+    private void showMovablePieces(Board b){
+        if(game_ended){
+            return;
+        }
+
+        if(current!=one){
+            return;
+        }
+
+        if(engagedMove){
+            return;
+        }
+
+        if(!game_started){
+            return;
+        }
+
+        System.out.println("HINT.....");
+
+        for(int i=0; i<SIZE; i++){
+            for (int j=0; j<SIZE; j++){
+
+                if(b.getBoard()[i][j] == Board.Type.EMPTY){
+                    if(getCase(j, i)!= null){
+                        getCase(j, i).setCenter(null);
+                    }
+                    continue;
+                }else if(b.getBoard()[i][j] == Board.Type.BLACK){
+
+                    if(one.getSide()== Player.Side.BLACK){
+
+                        List<Move> possibleMoves = board.getValidMoves(i, j, Player.Side.BLACK);
+                        if(possibleMoves.size()!=0){
+                            getCase(j, i).getStyleClass().add("movable");
+                        }
+                    }
+
+                //Change color
+                }else if(b.getBoard()[i][j] == Board.Type.WHITE){
+
+                    if(one.getSide()== Player.Side.WHITE){
+
+                        List<Move> possibleMoves = board.getValidMoves(i, j, Player.Side.WHITE);
+                        if(possibleMoves.size()!=0){
+                            getCase(j, i).getStyleClass().add("movable");
+                        }
+
+                    }
+
+                    //Change color
+                }else if(b.getBoard()[i][j] == Board.Type.BLACK_KING){
+
+                    if(one.getSide()== Player.Side.BLACK){
+
+                        List<Move> possibleMoves = board.getValidMoves(i, j, Player.Side.BLACK);
+                        if(possibleMoves.size()!=0){
+                            getCase(j, i).getStyleClass().add("movable");
+                        }
+
+                    }
+
+                    //Change color
+                }else if(b.getBoard()[i][j] == Board.Type.WHITE_KING){
+
+                    if(one.getSide()== Player.Side.WHITE){
+
+                        List<Move> possibleMoves = board.getValidMoves(i, j, Player.Side.WHITE);
+                        if(possibleMoves.size()!=0){
+                            getCase(j, i).getStyleClass().add("movable");
+                        }
+
+                    }
+
+                    //Change color
                 }
             }
         }
