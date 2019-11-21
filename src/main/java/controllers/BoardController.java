@@ -1,6 +1,6 @@
 package controllers;
 
-import data.*;
+import processing.*;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -13,7 +13,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
-import java.awt.*;
 import java.net.URL;
 import java.util.*;
 import java.util.List;
@@ -387,7 +386,7 @@ public class BoardController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Incorrect");
             alert.setHeaderText(null);
-            alert.setContentText("INVALID DESTINATION");
+            alert.setContentText("INVALID DESTINATION!");
             alert.showAndWait();
 
             // don't update anything
@@ -396,14 +395,14 @@ public class BoardController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Incorrect");
             alert.setHeaderText(null);
-            alert.setContentText("YOU CAN NOT MOVE THAT PIECE");
+            alert.setContentText("YOU CAN NOT MOVE THAT PIECE! [PRESS HINTS FOR HINTS]");
             alert.showAndWait();
         } else if(decision == Board.Decision.JUMP_AVAILABLE){
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Incorrect");
             alert.setHeaderText(null);
-            alert.setContentText("CAPTURE MOVE AVAILABLE, YOU MUST CAPTURE!");
+            alert.setContentText("CAPTURE MOVE AVAILABLE, YOU MUST CAPTURE! [PRESS HINTS FOR HINTS]");
             alert.showAndWait();
         }
         else if(decision == Board.Decision.COMPLETED)
@@ -480,7 +479,7 @@ public class BoardController implements Initializable {
 
             loadBoard(board);
 
-            message.setText("Additional Move");
+            message.setText("ADDITIONAL MOVE");
         }
         else if(decision == Board.Decision.GAME_ENDED)
         {
@@ -662,7 +661,14 @@ public class BoardController implements Initializable {
             return;
         }
 
-        System.out.println("HINT.....");
+        List<Move> jumpMoves = new ArrayList<>();
+
+        //if capture move available show only these pieces
+        for(Move m: board.getAllValidMoves(current.getSide())){
+            if(m.getStart().x+1 != m.getEnd().x && m.getStart().x-1 != m.getEnd().x){
+                jumpMoves.add(m);
+            }
+        }
 
         for(int i=0; i<SIZE; i++){
             for (int j=0; j<SIZE; j++){
@@ -676,9 +682,18 @@ public class BoardController implements Initializable {
 
                     if(one.getSide()== Player.Side.BLACK){
 
-                        List<Move> possibleMoves = board.getValidMoves(i, j, Player.Side.BLACK);
-                        if(possibleMoves.size()!=0){
-                            getCase(j, i).getStyleClass().add("movable");
+                        if(jumpMoves.size()!=0){
+                            for(Move m: jumpMoves ){
+                                if(m.getStart().x==i && m.getStart().y==j){
+                                    getCase(j, i).getStyleClass().add("movable");
+                                    break;
+                                }
+                            }
+                        }else{
+                            List<Move> possibleMoves = board.getValidMoves(i, j, Player.Side.BLACK);
+                            if(possibleMoves.size()!=0){
+                                getCase(j, i).getStyleClass().add("movable");
+                            }
                         }
                     }
 
@@ -687,9 +702,18 @@ public class BoardController implements Initializable {
 
                     if(one.getSide()== Player.Side.WHITE){
 
-                        List<Move> possibleMoves = board.getValidMoves(i, j, Player.Side.WHITE);
-                        if(possibleMoves.size()!=0){
-                            getCase(j, i).getStyleClass().add("movable");
+                        if(jumpMoves.size()!=0){
+                            for(Move m: jumpMoves ){
+                                if(m.getStart().x==i && m.getStart().y==j){
+                                    getCase(j, i).getStyleClass().add("movable");
+                                    break;
+                                }
+                            }
+                        }else{
+                            List<Move> possibleMoves = board.getValidMoves(i, j, Player.Side.WHITE);
+                            if(possibleMoves.size()!=0){
+                                getCase(j, i).getStyleClass().add("movable");
+                            }
                         }
 
                     }
@@ -699,9 +723,21 @@ public class BoardController implements Initializable {
 
                     if(one.getSide()== Player.Side.BLACK){
 
-                        List<Move> possibleMoves = board.getValidMoves(i, j, Player.Side.BLACK);
-                        if(possibleMoves.size()!=0){
-                            getCase(j, i).getStyleClass().add("movable");
+                        if(one.getSide()== Player.Side.BLACK){
+
+                            if(jumpMoves.size()!=0){
+                                for(Move m: jumpMoves ){
+                                    if(m.getStart().x==i && m.getStart().y==j){
+                                        getCase(j, i).getStyleClass().add("movable");
+                                        break;
+                                    }
+                                }
+                            }else{
+                                List<Move> possibleMoves = board.getValidMoves(i, j, Player.Side.BLACK);
+                                if(possibleMoves.size()!=0){
+                                    getCase(j, i).getStyleClass().add("movable");
+                                }
+                            }
                         }
 
                     }
@@ -711,11 +747,19 @@ public class BoardController implements Initializable {
 
                     if(one.getSide()== Player.Side.WHITE){
 
-                        List<Move> possibleMoves = board.getValidMoves(i, j, Player.Side.WHITE);
-                        if(possibleMoves.size()!=0){
-                            getCase(j, i).getStyleClass().add("movable");
+                        if(jumpMoves.size()!=0){
+                            for(Move m: jumpMoves ){
+                                if(m.getStart().x==i && m.getStart().y==j){
+                                    getCase(j, i).getStyleClass().add("movable");
+                                    break;
+                                }
+                            }
+                        }else{
+                            List<Move> possibleMoves = board.getValidMoves(i, j, Player.Side.WHITE);
+                            if(possibleMoves.size()!=0){
+                                getCase(j, i).getStyleClass().add("movable");
+                            }
                         }
-
                     }
 
                     //Change color
