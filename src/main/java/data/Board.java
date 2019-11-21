@@ -194,12 +194,20 @@ public class Board {
                 Type middle = getPiece(mid);
                 if (middle == Type.BLACK)
                     numBlackNormalPieces--;
-                else if(middle == Type.BLACK_KING)
+                else if(middle == Type.BLACK_KING){
                     numBlackKingPieces--;
+
+                    //Regicide
+                    board[endRow][endCol] = Type.WHITE_KING;
+                }
                 else if(middle == Type.WHITE)
                     numWhiteNormalPieces--;
-                else if(middle == Type.WHITE_KING)
+                else if(middle == Type.WHITE_KING){
                     numWhiteKingPieces--;
+
+                    //Regicide
+                    board[endRow][endCol] = Type.BLACK_KING;
+                }
                 board[mid.x][mid.y] = Type.EMPTY;
             }
 

@@ -138,7 +138,7 @@ public class BoardController implements Initializable {
 
 
                     ImageView temp = new ImageView(new Image("images/black.png"));
-                    temp.setFitWidth(45);
+                    temp.setFitWidth(50);
                     temp.setPreserveRatio(true);
 
                     if(one.getSide()== Player.Side.WHITE){
@@ -153,7 +153,7 @@ public class BoardController implements Initializable {
                     }
 
                     ImageView temp = new ImageView(new Image("images/white.png"));
-                    temp.setFitWidth(45);
+                    temp.setFitWidth(50);
                     temp.setPreserveRatio(true);
 
                     if(one.getSide()== Player.Side.WHITE){
@@ -168,7 +168,7 @@ public class BoardController implements Initializable {
                     }
 
                     ImageView temp = new ImageView(new Image("images/black_king.png"));
-                    temp.setFitWidth(45);
+                    temp.setFitWidth(50);
                     temp.setPreserveRatio(true);
 
                     if(one.getSide()== Player.Side.WHITE){
@@ -183,7 +183,7 @@ public class BoardController implements Initializable {
                     }
 
                     ImageView temp = new ImageView(new Image("images/white_king.png"));
-                    temp.setFitWidth(45);
+                    temp.setFitWidth(50);
                     temp.setPreserveRatio(true);
 
                     if(one.getSide()== Player.Side.WHITE){
