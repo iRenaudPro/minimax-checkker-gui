@@ -31,7 +31,7 @@ public class Board {
         setUpBoard();
     }
 
-    public Board(Type[][] board)
+    private Board(Type[][] board)
     {
         numWhiteNormalPieces = 0;
         numBlackNormalPieces = 0;
@@ -81,16 +81,6 @@ public class Board {
         populateEmptyOnBoard();
     }
 
-    private void setUpTestBoard() {
-        numBlackKingPieces = 1;
-        numWhiteKingPieces = 1;
-        board = new Type[SIZE][SIZE];
-        board[6][1] = Type.WHITE_KING;
-        board[4][3] = Type.BLACK_KING;
-        populateEmptyOnBoard();
-
-    }
-
     private void populateEmptyOnBoard() {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
@@ -100,11 +90,11 @@ public class Board {
         }
     }
 
-    public Type getPiece(int row, int col) {
+    private Type getPiece(int row, int col) {
         return board[row][col];
     }
 
-    public Type getPiece(Point point) {
+    private Type getPiece(Point point) {
         return board[point.x][point.y];
     }
 
@@ -121,28 +111,34 @@ public class Board {
         return numBlackKingPieces + numBlackNormalPieces;
     }
 
-    public int getNumWhiteKingPieces()
+    int getNumWhiteKingPieces()
     {
         return numWhiteKingPieces;
     }
-    public int getNumBlackKingPieces()
+    int getNumBlackKingPieces()
     {
         return numBlackKingPieces;
     }
-    public int getNumWhiteNormalPieces()
+    int getNumWhiteNormalPieces()
     {
         return numWhiteNormalPieces;
     }
-    public int getNumBlackNormalPieces()
+    int getNumBlackNormalPieces()
     {
         return numBlackNormalPieces;
     }
 
-    // returns true if move successful
+    /**
+     * Makes a move and return the decision
+     * @param move the move to perform
+     * @param side the side on which the move must be performed
+     * @return the decision after move evaluation
+     */
     public Decision makeMove(Move move, Player.Side side) {
         if(move == null) {
             return Decision.GAME_ENDED;
         }
+
         Point start = move.getStart();
         int startRow = start.x;
         int startCol = start.y;
@@ -155,8 +151,6 @@ public class Board {
             return Decision.FAILED_MOVING_INVALID_PIECE;
 
         List<Move> possibleMoves = getValidMoves(startRow, startCol, side);
-        //System.out.println(possibleMoves);
-
         List<Move> allValidMoves = getAllValidMoves(side);
 
         //Check if jump move is available
@@ -175,7 +169,7 @@ public class Board {
             //if it contains move then it is either 1 move or 1 jump
             if (startRow + 1 == endRow || startRow - 1 == endRow) {
 
-                //If the choosed move is not a jump when jump move is available
+                //If the selected move is not a jump when jump move is available
                 if(jumpMoveAvailable){
                     return Decision.JUMP_AVAILABLE;
                 }
@@ -197,7 +191,7 @@ public class Board {
                 else if(middle == Type.BLACK_KING){
                     numBlackKingPieces--;
 
-                    //Regicide
+                    //Regicide implementation
                     board[endRow][endCol] = Type.WHITE_KING;
                 }
                 else if(middle == Type.WHITE)
@@ -205,7 +199,7 @@ public class Board {
                 else if(middle == Type.WHITE_KING){
                     numWhiteKingPieces--;
 
-                    //Regicide
+                    //Regicide implementation
                     board[endRow][endCol] = Type.BLACK_KING;
                 }
                 board[mid.x][mid.y] = Type.EMPTY;
@@ -233,6 +227,11 @@ public class Board {
             return Decision.FAILED_INVALID_DESTINATION;
     }
 
+    /**
+     * Returns all valid moves
+     * @param side the selected side
+     * @return all valid moves for the selected side
+     */
     public List<Move> getAllValidMoves(Player.Side side)
     {
 
@@ -254,7 +253,11 @@ public class Board {
         return possibleMoves;
     }
 
-    // requires there to actually be a mid square
+    /**
+     * Find the middle square for a move
+     * @param move the concerned move
+     * @return the middle square for the provided move
+     */
     private Point findMidSquare(Move move) {
 
         Point ret = new Point((move.getStart().x + move.getEnd().x) / 2,
@@ -263,6 +266,13 @@ public class Board {
         return ret;
     }
 
+    /**
+     * Checks if the moved Piece is owned by the Player performing the move
+     * @param row the row of the piece
+     * @param col the col of the piece
+     * @param side the Player's side
+     * @return if the moved Piece is owned by the Player performing the move or not
+     */
     private boolean isMovingOwnPiece(int row, int col, Player.Side side) {
         Type pieceType = getPiece(row, col);
         if (side == Player.Side.BLACK && pieceType != Type.BLACK && pieceType != Type.BLACK_KING)
@@ -272,6 +282,13 @@ public class Board {
         return true;
     }
 
+    /**
+     * Get all valid moves for a piece
+     * @param row the row of the piece
+     * @param col the col of the piece
+     * @param side piece's side
+     * @return all valid moves for the piece at the provided point (row, col)
+     */
     public List<Move> getValidMoves(int row, int col, Player.Side side) {
         Type type = board[row][col];
         Point startPoint = new Point(row, col);
@@ -280,9 +297,9 @@ public class Board {
 
         List<Move> moves = new ArrayList<>();
 
-        //4 possible moves, 2 if not king
+        //If piece is not king
         if (type == Type.WHITE || type == Type.BLACK) {
-            //2 possible moves
+
             int rowChange = type == Type.WHITE ? 1 : -1;
 
             int newRow = row + rowChange;
@@ -296,7 +313,7 @@ public class Board {
             }
 
         }
-        //must be king
+        //If piece is king
         else {
             //4 possible moves
 
@@ -326,7 +343,14 @@ public class Board {
         return moves;
     }
 
-    public List<Move> getValidSkipMoves(int row, int col, Player.Side side) {
+    /**
+     * Get all valid skip moves for a piece
+     * @param row the row of the piece
+     * @param col the col of the piece
+     * @param side piece's side
+     * @return all valid skip moves for the piece at the provided point (row, col)
+     */
+    List<Move> getValidSkipMoves(int row, int col, Player.Side side) {
         List<Move> move = new ArrayList<>();
         Point start = new Point(row, col);
 
@@ -350,8 +374,7 @@ public class Board {
             possibilities.add(new Point(row - 2, col - 2));
         }
 
-        for (int i = 0; i < possibilities.size(); i++) {
-            Point temp = possibilities.get(i);
+        for (Point temp : possibilities) {
             Move m = new Move(start, temp);
             if (temp.x < SIZE && temp.x >= 0 && temp.y < SIZE && temp.y >= 0 && getPiece(temp.x, temp.y) == Type.EMPTY
                     && isOpponentPiece(side, getPiece(findMidSquare(m)))) {
@@ -359,11 +382,15 @@ public class Board {
             }
         }
 
-        //System.out.println("Skip moves: " + move);
         return move;
     }
 
-    // return true if the piece is opponents
+    /**
+     * Checks if piece type is opponent piece type
+     * @param current current player side
+     * @param opponentPiece opponent piece type
+     * @return true if piece type is opponent piece type otherwise false
+     */
     private boolean isOpponentPiece(Player.Side current, Type opponentPiece) {
         if (current == Player.Side.BLACK && (opponentPiece == Type.WHITE || opponentPiece == Type.WHITE_KING))
             return true;
@@ -372,48 +399,44 @@ public class Board {
         return false;
     }
 
-    public String toString() {
-        StringBuilder b = new StringBuilder();
-        b.append("  ");
-        for (int i = 0; i < board.length; i++) {
-            b.append(i + " ");
-        }
-        b.append("\n");
-        for (int i = 0; i < board.length; i++) {
-            for (int j = -1; j < board[i].length; j++) {
-                String a = "";
-                if (j == -1)
-                    a = i + "";
-                else if (board[i][j] == Type.WHITE)
-                    a = "w";
-                else if (board[i][j] == Type.BLACK)
-                    a = "b";
-                else if (board[i][j] == Type.WHITE_KING)
-                    a = "W";
-                else if (board[i][j] == Type.BLACK_KING)
-                    a = "B";
-                else
-                    a = "_";
-
-                b.append(a);
-                b.append(" ");
+    /**
+     * Get all available jump moves for a player
+     * @param side player side
+     * @return all available jump moves for the player on the provided side
+     */
+    public List<Move> getJumpMoves(Player.Side side){
+        List<Move> jumpMoves = new ArrayList<>();
+        for(Move m: getAllValidMoves(side)){
+            if(m.getStart().x+1 != m.getEnd().x && m.getStart().x-1 != m.getEnd().x){
+                jumpMoves.add(m);
             }
-            b.append("\n");
         }
-        return b.toString();
+        return  jumpMoves;
     }
 
-    public Board clone()
-    {
+    /**
+     * Get all available jump moves for a Piece
+     * @param x position on x axis
+     * @param y position on y axis
+     * @param jumpMoves all jumps moves
+     * @return all available jump moves for a Piece at (x, y)
+     */
+    public Boolean jumpMoveAvailableForPiece(int x, int y, List<Move> jumpMoves){
+        for(Move m: jumpMoves ){
+            if(m.getStart().x==x && m.getStart().y==y){
+                return  true;
+            }
+        }
+        return false;
+    }
+
+
+    public Board clone() {
         Type[][] newBoard = new Type[SIZE][SIZE];
         for(int i = 0; i < SIZE; i++)
         {
-            for(int j = 0; j< SIZE; j++)
-            {
-                newBoard[i][j] = board[i][j];
-            }
+            System.arraycopy(board[i], 0, newBoard[i], 0, SIZE);
         }
-        Board b = new Board(newBoard);
-        return b;
+        return new Board(newBoard);
     }
 }

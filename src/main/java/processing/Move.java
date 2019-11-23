@@ -2,6 +2,9 @@ package processing;
 
 import java.awt.*;
 
+/**
+ * Move class representing moves performed by Players.
+ */
 public class Move {
 
     private Point start;
@@ -12,7 +15,8 @@ public class Move {
         start = new Point(startRow, startCol);
         end = new Point(endRow, endCol);
     }
-    public Move(Point start, Point end)
+
+    Move(Point start, Point end)
     {
         this.start = start;
         this.end = end;
@@ -26,11 +30,6 @@ public class Move {
     public Point getEnd()
     {
         return end;
-    }
-
-    public String toString()
-    {
-        return "Start: " + start.x + ", " + start.y + " End: " + end.x + ", " + end.y;
     }
 
     public boolean equals(Object m)

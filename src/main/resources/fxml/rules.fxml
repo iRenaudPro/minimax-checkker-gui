@@ -11,7 +11,7 @@
    <center>
       <Label alignment="TOP_LEFT" prefHeight="495.0" prefWidth="556.0" text="Black moves first and play proceeds alternately. From their initial positions, checkers may only move forward.&#10;&#10;There are two types of moves that can be made, capturing moves and non-capturing moves. Non-capturing moves are simply a diagonal move forward from one square to an adjacent square. (Note that the white squares are never used.) Capturing moves occur when a player &quot;jumps&quot; an opposing piece. This is also done on the diagonal and can only happen when the square behind (on the same diagonal) is also open. This means that you may not jump an opposing piece around a corner. &#10;&#10;On a capturing move, a piece may make multiple jumps. If after a jump a player is in a position to make another jump then he may do so. This means that a player may make several jumps in succession, capturing several pieces on a single turn.&#10;&#10;Forced Captures: When a player is in a position to make a capturing move, he must make a capturing move. When he has more than one capturing move to choose from he may take whichever move suits him.&#10;&#10;Regicide: If a normal piece manages to capture a king, it is itself upgraded to a king." textAlignment="JUSTIFY" wrapText="true" BorderPane.alignment="CENTER">
          <font>
-            <Font size="17.0" />
+            <Font size="16.0" />
          </font>
       </Label>
    </center>

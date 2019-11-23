@@ -1,0 +1,21 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" build-on-make="true" name="CheckersMiniMax">
+    <output-path>$PROJECT_DIR$/out/artifacts/CheckersMiniMax</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="Main" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="title" value="Checkers" />
+        <option name="vendor" value="Yao Renaud WOANA" />
+        <option name="version" value="" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="CheckersMiniMax.jar">
+        <element id="module-output" name="CheckersMiniMax" />
+      </element>
+      <element id="artifact" artifact-name="MinimaxCheckers" />
+    </root>
+  </artifact>
+</component>

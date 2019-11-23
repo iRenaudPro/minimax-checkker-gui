@@ -1,5 +1,8 @@
 package processing;
 
+/**
+ * AI interface implemented by PlayerAI class
+ */
 public interface AI{
-    public Board.Decision makeMove(Board b);
+    Board.Decision makeMove(Board b);
 }
