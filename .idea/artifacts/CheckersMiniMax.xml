@@ -4,18 +4,18 @@
     <properties id="javafx-properties">
       <options>
         <option name="appClass" value="Main" />
-        <option name="description" value="" />
+        <option name="description" value="Checkers game vs AI using the Minimax algorithm" />
         <option name="htmlPlaceholderId" value="" />
+        <option name="nativeBundle" value="all" />
         <option name="title" value="Checkers" />
         <option name="vendor" value="Yao Renaud WOANA" />
-        <option name="version" value="" />
+        <option name="version" value="1.0" />
       </options>
     </properties>
     <root id="root">
       <element id="archive" name="CheckersMiniMax.jar">
         <element id="module-output" name="CheckersMiniMax" />
       </element>
-      <element id="artifact" artifact-name="MinimaxCheckers" />
     </root>
   </artifact>
 </component>
