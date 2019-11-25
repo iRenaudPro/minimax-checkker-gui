@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="javafx" build-on-make="true" name="CheckersMiniMax">
+  <artifact type="javafx" name="CheckersMiniMax">
     <output-path>$PROJECT_DIR$/out/artifacts/CheckersMiniMax</output-path>
     <properties id="javafx-properties">
       <options>

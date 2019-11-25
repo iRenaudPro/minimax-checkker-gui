@@ -93,6 +93,8 @@ public class BoardController implements Initializable {
     @FXML
     private Button hintBtn;
 
+    private Board previousBoard;
+
     //Tracking moves
     private Boolean engagedMove = false;
     private Pair<Integer, Integer> engagedSquare = new Pair<>(-1, -1);
@@ -123,22 +125,78 @@ public class BoardController implements Initializable {
      * Loads the board
      * @param b the board to load
      */
-    private void loadBoard(Board b){
+    private void loadBoard(Board b, Boolean isAI){
+
+        if(b!=board){
+            System.out.println("Everything is a lie...");
+        }
+
         for(int i=0; i<b.SIZE; i++){
             for (int j=0; j<b.SIZE; j++){
+
+
                 getSquare(j, i).getStyleClass().remove("movable");
+
+                if(!isAI){
+                    getSquare(j, i).getStyleClass().remove("trail");
+                    getSquare(j, i).getStyleClass().remove("captured");
+                }
+
+
                 if(b.getBoard()[i][j] == Board.Type.EMPTY){
                     if(getSquare(j, i)!= null){
                         getSquare(j, i).setCenter(null);
                     }
+
+                    if(isAI && (b.getBoard()[i][j] != previousBoard.getBoard()[i][j])){
+
+
+
+                        if(previousBoard.getBoard()[i][j]== Board.Type.BLACK || previousBoard.getBoard()[i][j]== Board.Type.BLACK_KING){
+                            if(current.getSide()== Player.Side.WHITE){
+                                getSquare(j, i).getStyleClass().add("captured");
+                            }else if(current.getSide()== Player.Side.BLACK){
+                                getSquare(j, i).getStyleClass().add("trail");
+                            }
+                        }else if(previousBoard.getBoard()[i][j]== Board.Type.WHITE || previousBoard.getBoard()[i][j]== Board.Type.WHITE_KING){
+                            if(current.getSide()== Player.Side.BLACK){
+                                getSquare(j, i).getStyleClass().add("captured");
+                            }else if(current.getSide()== Player.Side.WHITE){
+                                getSquare(j, i).getStyleClass().add("trail");
+                            }
+                        }
+                    }else if(!isAI){
+                        getSquare(j, i).getStyleClass().remove("trail");
+                        getSquare(j, i).getStyleClass().remove("captured");
+                    }
+
                 }else if(b.getBoard()[i][j] == Board.Type.BLACK){
                     getSquare(j, i).setCenter(getImage("BLACK", one.getSide()== Player.Side.WHITE));
+
+                    if(isAI && b.getBoard()[i][j]!=previousBoard.getBoard()[i][j]){
+                        getSquare(j, i).getStyleClass().add("trail");
+                    }
+
                 }else if(b.getBoard()[i][j] == Board.Type.WHITE){
                     getSquare(j, i).setCenter(getImage("WHITE", one.getSide()== Player.Side.WHITE));
+
+                    if(isAI && b.getBoard()[i][j]!=previousBoard.getBoard()[i][j]){
+                        getSquare(j, i).getStyleClass().add("trail");
+                    }
+
                 }else if(b.getBoard()[i][j] == Board.Type.BLACK_KING){
                     getSquare(j, i).setCenter(getImage("BLACK_KING", one.getSide()== Player.Side.WHITE));
+
+                    if(isAI && b.getBoard()[i][j]!=previousBoard.getBoard()[i][j]){
+                        getSquare(j, i).getStyleClass().add("trail");
+                    }
+
                 }else if(b.getBoard()[i][j] == Board.Type.WHITE_KING){
                     getSquare(j, i).setCenter(getImage("WHITE_KING", one.getSide()== Player.Side.WHITE));
+
+                    if(isAI && b.getBoard()[i][j]!=previousBoard.getBoard()[i][j]){
+                        getSquare(j, i).getStyleClass().add("trail");
+                    }
 
                 }
             }
@@ -336,7 +394,8 @@ public class BoardController implements Initializable {
         if(!turn)
             current = two;
 
-        loadBoard(board);
+        loadBoard(board, false);
+
 
         if(current==two){
             message.setText("AI is playing...");
@@ -376,6 +435,8 @@ public class BoardController implements Initializable {
     private void humanMove(int x1, int y1, int x2, int y2){
         Move m = new Move(x1, y1, x2, y2);
 
+        previousBoard = board.clone();
+
         //Perform the move
         Board.Decision decision = current.makeMove(m, board);
 
@@ -392,7 +453,7 @@ public class BoardController implements Initializable {
         }
         else if(decision == Board.Decision.COMPLETED)
         {
-            loadBoard(board);
+            loadBoard(board, false);
             if(board.getNumBlackPieces() == 0)
             {
                 message.setText("GAME ENDED: White wins");
@@ -440,7 +501,7 @@ public class BoardController implements Initializable {
         }
         else if(decision == Board.Decision.ADDITIONAL_MOVE)
         {
-            loadBoard(board);
+            loadBoard(board, false);
             message.setText("ADDITIONAL MOVE");
         }
         else if(decision == Board.Decision.GAME_ENDED)
@@ -472,6 +533,8 @@ public class BoardController implements Initializable {
             //Get all capture moves available for the AI
             List<Move> jumpMoves = board.getJumpMoves(current.getSide());
 
+            previousBoard = board.clone();
+
             if(move==null){
                 decision = ((AI) current).makeMove(board);
             }else{
@@ -485,7 +548,7 @@ public class BoardController implements Initializable {
             }
             else if(decision == Board.Decision.COMPLETED){
 
-                loadBoard(board);
+                loadBoard(board, true);
 
                 if(board.getNumBlackPieces() == 0)
                 {
@@ -514,7 +577,7 @@ public class BoardController implements Initializable {
 
             else if(decision == Board.Decision.ADDITIONAL_MOVE) {
 
-                loadBoard(board);
+                loadBoard(board, true);
 
                 //Use of tasks to avoid thread pauses
                 Task<Void> task = new Task<Void>() {

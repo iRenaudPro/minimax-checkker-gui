@@ -14,3 +14,11 @@
     -fx-border-color:  green;
     -fx-border-width: 5;
 }
+
+.trail{
+    -fx-background-color: #fab1a0;
+}
+
+.captured{
+    -fx-background-color: #a29bfe;
+}
